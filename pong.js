@@ -44,11 +44,11 @@ Paddle.prototype.render = function() {
 };
 
 function Player() {
-   this.paddle = new Paddle(175, 580, 50, 10);
+   this.paddle = new Paddle(175, 580, 50, 50);
 }
 
 function Computer() {
-  this.paddle = new Paddle(175, 10, 50, 10);
+  this.paddle = new Paddle(175, 10, 50, 50);
 }
 Player.prototype.render = function() {
   this.paddle.render();
@@ -159,6 +159,10 @@ Player.prototype.update = function() {
       this.paddle.move(-4, 0);
     } else if (value == 39) { // right arrow
       this.paddle.move(4, 0);
+    } else if (value == 38) { // up arrow
+      this.paddle.move(0, -4);
+    } else if (value == 40) { // down arrow
+      this.paddle.move(0, 4);
     } else {
       this.paddle.move(0, 0);
     }
@@ -177,11 +181,20 @@ Paddle.prototype.move = function(x, y) {
     this.x = 400 - this.width;
     this.x_speed = 0;
   }
+  else if (this.y < 0) { // all the way to the top
+    this.y = 0;
+    this.x_speed = 0;
+  }
+  else if ( this.y > 550) { // all the way to the bottom
+    this.y = 550;
+    this.x_speed = 0;
+  }
 }
 
 var update = function() {
   player.update();
   computer.update(ball);
+  // computer.update();
   ball.update(player.paddle, computer.paddle);
 };
 
